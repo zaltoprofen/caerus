@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
 from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.types import String, Boolean, Integer, DateTime, Enum
+from sqlalchemy.types import String, Boolean, Integer, DateTime, Enum, Text
 import json
 
 __all__ = ['setup', 'CaerusEntryMeta', 'CaerusEntry', 'CronSchedule', 'IntervalSchedule']
@@ -50,11 +50,11 @@ class CaerusEntryMeta(Base):
 class CaerusEntry(Base, ScheduleEntry):
     __tablename__ = 'schedule_entry'
     id = Column(Integer, primary_key=True)
-    name = Column(String(length=256), nullable=False, unique=True)
+    name = Column(String(length=255), nullable=False, unique=True)
     task = Column(String(length=256), nullable=False)
-    _args = Column('args', String(length=512), nullable=False, default="[]")
-    _kwargs = Column('kwargs', String(length=512), nullable=False, default="{}")
-    _options = Column('options', String(length=512), nullable=False, default="{}")
+    _args = Column('args', Text, nullable=False, default="[]")
+    _kwargs = Column('kwargs', Text, nullable=False, default="{}")
+    _options = Column('options', Text, nullable=False, default="{}")
     relative = Column(Boolean, nullable=False, default=False)
     enable = Column(Boolean, nullable=False, default=True)
     last_run_at = Column(DateTime)
